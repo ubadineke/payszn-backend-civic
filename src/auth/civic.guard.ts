@@ -18,7 +18,7 @@ export class CivicAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
-    const { wallet } = request.body;
+    const { wallet } = request.query;
 
     if (!wallet) {
       throw new UnauthorizedException('Provide user wallet address');
