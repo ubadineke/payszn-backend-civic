@@ -1,6 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-// import { PrivyClient } from '@privy-io/server-auth';
 // import Request from 'express';
 
 // interface RequestWithCookies extends Request {
@@ -11,10 +10,6 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class CivicService {
-  // private privyClient: PrivyClient;
-
-  // constructor(private configService: ConfigService) {}
-
   async verifyIdToken(token: any) {
     // Issue: TypeScript annotation in JS
     // console.log('token', token);
