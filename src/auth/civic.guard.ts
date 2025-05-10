@@ -7,13 +7,14 @@ import {
 import { CivicService } from './civic.service';
 import { Request } from 'express';
 import { UsersService } from 'src/users/users.service';
+import { PublicKey } from '@solana/web3.js';
 
 @Injectable()
 export class CivicAuthGuard implements CanActivate {
   constructor(
     private civicService: CivicService,
     private userService: UsersService,
-  ) {}
+  ) { }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -22,6 +23,18 @@ export class CivicAuthGuard implements CanActivate {
 
     if (!wallet) {
       throw new UnauthorizedException('Provide user wallet address');
+    }
+
+    //Check if wallet is a valid solana address
+    let validWallet: boolean;
+    try {
+      validWallet = PublicKey.isOnCurve(new PublicKey(wallet).toBytes());
+    } catch (err) {
+      validWallet = false;
+    }
+
+    if (!validWallet) {
+      throw new UnauthorizedException('Wallet is not a valid solana address');
     }
 
     if (!token) {
